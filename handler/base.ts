@@ -1,11 +1,11 @@
 import {
     ConnectionHandler, ContestModel, Context, ForbiddenError,
-    Handler, HandlerCommon, NotFoundError, ObjectId, param, Types,
+    Handler, HandlerCommon, NotFoundError, ObjectId, param, PRIV, Types,
 } from 'hydrooj';
 
 export class CCSOperationHandler extends Handler {
     async prepare() {
-        this.checkPriv(-1);
+        this.checkPriv(PRIV.PRIV_EDIT_SYSTEM);
     }
 
     @param('contestId', Types.ObjectId)

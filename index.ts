@@ -9,7 +9,7 @@ declare module 'hydrooj' {
         'ccs.event': CCSEventDoc;
     }
     interface Context {
-        'ccs': CCSEventFeedService;
+        ccs: CCSEventFeedService;
     }
 }
 

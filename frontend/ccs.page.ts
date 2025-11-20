@@ -1,7 +1,7 @@
 import { $, addPage, confirm, NamedPage, Notification, request } from '@hydrooj/ui-default';
 
 addPage(new NamedPage(['contest_detail'], () => {
-  if (UserContext.priv === -1 && UiContext.tdoc.rule === 'acm') {
+  if ((UserContext.priv & 1) && UiContext.tdoc.rule === 'acm') {
     const menuList = $('div.medium-3.columns .menu');
     menuList.append('<li class="menu__item"><a id="contest-init" class="menu__link"><span class="icon icon-settings"></span>(CCS) 初始化比赛</a></li>');
     menuList.append('<li class="menu__item"><a id="contest-reset" class="menu__link"><span class="icon icon-warning"></span>(CCS) 重置比赛</a></li>');
