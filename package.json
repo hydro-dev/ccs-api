@@ -3,7 +3,7 @@
   "description": "Contest Control System API support for ACM/ICPC contests in Hydro OJ",
   "author": "FrexCheat <frexdeveloper@gmail.com>",
   "license": "AGPL-3.0-or-later",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "index.ts",
   "module": "index.ts",
   "files": [
