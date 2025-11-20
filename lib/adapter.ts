@@ -1,5 +1,5 @@
 import {
-    ContestModel, FileInfo, ProblemConfig, ProblemDict, ProblemModel,
+    ContestModel, ProblemConfig, ProblemDict, ProblemModel,
     RecordDoc, STATUS_SHORT_TEXTS, Tdoc, TestCase, User
 } from 'hydrooj';
 import {
@@ -33,26 +33,18 @@ export class CCSAdapter {
             ? (ContestModel.isDone(tdoc) ? TimeUtils.formatTime(tdoc.lockAt) : (ContestModel.isLocked(tdoc) ? TimeUtils.formatTime(tdoc.lockAt) : null))
             : null;
         const thawed = (ContestModel.isDone(tdoc) && !ContestModel.isLocked(tdoc)) ? TimeUtils.formatTime(nowTime) : null;
+        const finalized = ContestModel.isDone(tdoc) ? TimeUtils.formatTime(new Date(tdoc.endAt.getTime() + 60 * 1000)) : null;
         return {
             started,
             frozen,
             ended,
             thawed,
-            finalized: null,
+            finalized,
             end_of_updates: null,
         };
     }
 
     public async toProblem(tdoc: Tdoc, pdict: ProblemDict, index: number, pid: number): Promise<CCSProblem> {
-        const getTestCasesCount = (data: FileInfo[]): number => {
-            let count = 0;
-            for (const file of data) {
-                if (file.name.split('.').pop() === 'out') {
-                    count += 1;
-                }
-            }
-            return count;
-        };
         const referenceInfo: { domainId: string, pid: number } = pdict[pid].reference;
         const referenceData = referenceInfo ? await ProblemModel.get(referenceInfo.domainId, referenceInfo.pid) : null;
         return {
@@ -63,7 +55,7 @@ export class CCSAdapter {
             color: (typeof (tdoc.balloon?.[pid]) === 'object' ? tdoc.balloon[pid].name : tdoc.balloon?.[pid]) || 'white',
             rgb: (typeof (tdoc.balloon?.[pid]) === 'object' ? tdoc.balloon[pid].color : null) || '#ffffff',
             time_limit: (((referenceData ? referenceData.config : pdict[pid].config) as ProblemConfig).timeMax) / 1000,
-            test_data_count: (referenceData ? getTestCasesCount(referenceData.data) : getTestCasesCount(pdict[pid].data)),
+            test_data_count: (((referenceData ? referenceData.config : pdict[pid].config) as ProblemConfig).count),
         };
     }
 
@@ -91,7 +83,7 @@ export class CCSAdapter {
         const contestTime = TimeUtils.getContestTime(tdoc, rdoc._id.getTimestamp());
         return {
             id: rdoc._id.toHexString(),
-            language_id: rdoc.lang?.split('.')[0] || 'cpp',
+            language_id: rdoc.lang?.split('.')[0],
             problem_id: `${rdoc.pid}`,
             team_id: `team-${rdoc.uid}`,
             time: submitTime,

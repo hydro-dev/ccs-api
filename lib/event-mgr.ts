@@ -144,12 +144,15 @@ export class CCSEventFeedService extends Service {
         }
 
         // judgement-types
-        await Promise.all(Object.keys(STATUS_SHORT_TEXTS).map((i) => this.addEvent(tdoc._id, 'judgement-types', {
-            id: STATUS_SHORT_TEXTS[i],
-            name: STATUS_TEXTS[i],
-            penalty: ![STATUS.STATUS_ACCEPTED, STATUS.STATUS_COMPILE_ERROR, STATUS.STATUS_SYSTEM_ERROR].includes(+i),
-            solved: +i === STATUS.STATUS_ACCEPTED,
-        })));
+        const judgementTypes = Object.keys(STATUS_SHORT_TEXTS);
+        for (const i of judgementTypes) {
+            await this.addEvent(tdoc._id, 'judgement-types', {
+                id: STATUS_SHORT_TEXTS[i],
+                name: STATUS_TEXTS[i],
+                penalty: ![STATUS.STATUS_ACCEPTED, STATUS.STATUS_COMPILE_ERROR, STATUS.STATUS_SYSTEM_ERROR].includes(+i),
+                solved: +i === STATUS.STATUS_ACCEPTED,
+            });
+        }
 
         // submissions & judgements
         const records = await RecordModel.getMulti(tdoc.domainId, { contest: tdoc._id }).sort({ _id: 1 }).toArray();
