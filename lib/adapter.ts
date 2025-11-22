@@ -62,7 +62,7 @@ export class CCSAdapter {
     public toTeam(udoc: User, unrank: boolean): CCSTeam {
         return {
             id: `team-${udoc._id}`,
-            label: `team-${udoc._id}`,
+            label: udoc.seat || `team-${udoc._id}`,
             name: udoc.displayName || udoc.uname,
             display_name: (unrank ? '⭐' : '') + (udoc.displayName || udoc.uname),
             organization_id: crypto.createHash('md5').update(udoc.school || udoc.uname).digest('hex'),
