@@ -56,7 +56,7 @@ export async function apply(ctx: Context) {
         'CCS UserName': 'CCS 用户名',
         'CCS Password': 'CCS 密码',
     });
-    ctx.i18n.load('zh-TW', {
+    ctx.i18n.load('zh_TW', {
         'CCS UserName': 'CCS 使用者名稱',
         'CCS Password': 'CCS 密碼',
     });
