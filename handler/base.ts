@@ -64,7 +64,7 @@ function CCSMixin<TBase extends new (...args: any[]) => HandlerCommon<Context>>(
             return false;
         }
 
-        async _prepare({ domainId, contestId }: { domainId: string; contestId: ObjectId }) {
+        async _prepare({ domainId, contestId }: { domainId: string, contestId: ObjectId }) {
             if (!this.checkAuth()) throw new ForbiddenError('Unauthorized');
             if (contestId) {
                 const tdoc = await ContestModel.get(domainId, new ObjectId(contestId));

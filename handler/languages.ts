@@ -1,4 +1,4 @@
-import { param, Types, ObjectId } from 'hydrooj';
+import { ObjectId, param, Types } from 'hydrooj';
 import { BaseHandler } from './base';
 
 export class LanguagesHandler extends BaseHandler {

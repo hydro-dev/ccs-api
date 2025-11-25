@@ -18,7 +18,6 @@ export class EventFeedHandler extends ConnectionBaseHandler {
         if (!stream) {
             // add a timeout to make sure all previous data was sent
             this.ctx.setTimeout(() => this.close(1000, 'ended'), 1000);
-            return;
         } else {
             this.ctx.setInterval(async () => {
                 if (this.isProcessing) return;

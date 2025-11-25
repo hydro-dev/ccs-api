@@ -1,4 +1,4 @@
-import { param, STATUS, STATUS_SHORT_TEXTS, STATUS_TEXTS, Types, ObjectId } from 'hydrooj';
+import { ObjectId, param, STATUS, STATUS_SHORT_TEXTS, STATUS_TEXTS, Types } from 'hydrooj';
 import { BaseHandler } from './base';
 
 export class JudgementTypesHandler extends BaseHandler {

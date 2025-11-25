@@ -1,9 +1,10 @@
-import {
-    ContestModel, Context, ForbiddenError, ObjectId, ProblemModel, Service,
-    RecordDoc, RecordModel, STATUS, STATUS_SHORT_TEXTS, STATUS_TEXTS, Tdoc, UserModel
-} from 'hydrooj';
+/* eslint-disable no-await-in-loop */
 import crypto from 'crypto';
 import { Collection } from 'mongodb';
+import {
+    ContestModel, Context, ForbiddenError, ObjectId, ProblemModel, RecordDoc, RecordModel, Service,
+    STATUS, STATUS_SHORT_TEXTS, STATUS_TEXTS, Tdoc, UserModel,
+} from 'hydrooj';
 import { CCSAdapter } from './adapter';
 import { CCSEventContest, CCSEventDoc, CCState, EventType } from './types';
 
@@ -59,15 +60,15 @@ export class CCSEventFeedService extends Service {
         const isOngoing = ContestModel.isOngoing(tdoc);
         const isDone = ContestModel.isDone(tdoc);
         const isLocked = ContestModel.isLocked(tdoc);
-        
+
         if (!stateData) {
             shouldAddEvent = true;
         } else {
             shouldAddEvent = (
-                (isOngoing && !stateData.started) ||
-                (isOngoing && isLocked && !stateData.frozen) ||
-                (isDone && !stateData.ended) ||
-                (isDone && !isLocked && !stateData.thawed)
+                (isOngoing && !stateData.started)
+                || (isOngoing && isLocked && !stateData.frozen)
+                || (isDone && !stateData.ended)
+                || (isDone && !isLocked && !stateData.thawed)
             );
         }
 
