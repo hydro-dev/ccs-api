@@ -13,11 +13,11 @@ declare module 'hydrooj' {
     }
 }
 
-export const name = '@frexdeveloper/hydrooj-plugin-ccs';
+export const name = 'ccs-api';
 export const Config = Schema.object({
     username: Schema.string().default('ccs_hydro').description('CCS Username'),
     password: Schema.string().default('defaultKey@ccs').description('CCS Password'),
-});
+}).description('CCS API');
 
 export async function apply(ctx: Context) {
     ctx.plugin(CCSEventFeedService);
@@ -47,21 +47,10 @@ export async function apply(ctx: Context) {
         c.Route('ccs_contest_runs', '/ccs/api/contests/:contestId/runs', handler.RunsHandler);
         c.Route('ccs_contest_run', '/ccs/api/contests/:contestId/runs/:id', handler.RunsHandler);
         c.Connection('ccs_contest_event_feed', '/ccs/api/contests/:contestId/event-feed', handler.EventFeedHandler);
-        c.on('record/change', async (rdoc, $set, $push) => {
-            await c.ccs.handleRecordChange(rdoc, $set, $push);
-        });
-    });
-
-    ctx.i18n.load('zh', {
-        'CCS UserName': 'CCS 用户名',
-        'CCS Password': 'CCS 密码',
-    });
-    ctx.i18n.load('zh_TW', {
-        'CCS UserName': 'CCS 使用者名稱',
-        'CCS Password': 'CCS 密碼',
-    });
-    ctx.i18n.load('en', {
-        'CCS UserName': 'CCS UserName',
-        'CCS Password': 'CCS Password',
+        if (process.env.NODE_APP_INSTANCE === '0') {
+            c.on('record/change', async (rdoc, $set, $push) => {
+                await c.ccs.handleRecordChange(rdoc, $set, $push);
+            });
+        }
     });
 }

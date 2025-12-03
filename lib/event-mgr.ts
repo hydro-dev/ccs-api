@@ -77,12 +77,12 @@ export class CCSEventFeedService extends Service {
         }
     }
 
-    async handleRecordChange(rdoc: RecordDoc, $set: any, $push: any) {
+    async handleRecordChange(rdoc: RecordDoc, $set?: any, $push?: any) {
         if (!rdoc.contest || rdoc.contest.toHexString().startsWith('0'.repeat(23))) return;
         const tdoc = await ContestModel.get(rdoc.domainId, rdoc.contest);
         if (!tdoc) return;
         if (!(await this.isContestInitialized(tdoc))) return;
-        if (rdoc.status === 0) {
+        if (rdoc.status === 0 && $set === undefined && $push === undefined) {
             await this.addEvent(tdoc._id, 'submissions', this.adapter.toSubmission(tdoc, rdoc));
             await this.addEvent(tdoc._id, 'judgements', this.adapter.toJudgement(tdoc, rdoc));
         } else if (rdoc.judgeAt) {

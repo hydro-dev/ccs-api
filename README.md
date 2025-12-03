@@ -1,4 +1,4 @@
-# hydrooj-plugin-ccs
+# ccs-api
 
 ![NPM Version](https://img.shields.io/npm/v/@frexdeveloper/hydrooj-plugin-ccs)
 
@@ -29,11 +29,11 @@
 
 - `webhooks` 接口
 - `scoreboard` 接口
+- `Persons` 接口
 
 ## 未计划支持
 
 - `Awards` 接口
-- `Persons` 接口
 - `Accounts` 接口
 - `Commentary` 接口
 - `Clarifications` 接口

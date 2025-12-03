@@ -33,14 +33,15 @@ export class CCSAdapter {
             ? (ContestModel.isDone(tdoc) ? TimeUtils.formatTime(tdoc.lockAt) : (ContestModel.isLocked(tdoc) ? TimeUtils.formatTime(tdoc.lockAt) : null))
             : null;
         const thawed = (ContestModel.isDone(tdoc) && !ContestModel.isLocked(tdoc)) ? TimeUtils.formatTime(nowTime) : null;
-        const finalized = ContestModel.isDone(tdoc) ? TimeUtils.formatTime(new Date(tdoc.endAt.getTime() + 60 * 1000)) : null;
+        const finalized = ContestModel.isDone(tdoc) ? TimeUtils.formatTime(new Date(tdoc.endAt.getTime() + 120 * 1000)) : null;
+        const end_of_updates = ContestModel.isDone(tdoc) ? TimeUtils.formatTime(new Date(tdoc.endAt.getTime() + 150 * 1000)) : null;
         return {
             started,
             frozen,
             ended,
             thawed,
             finalized,
-            end_of_updates: null,
+            end_of_updates,
         };
     }
 
